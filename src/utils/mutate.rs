@@ -37,7 +37,6 @@ pub fn mutate_fasta(file_struct: &HashMap<String, Vec<u8>>) -> HashMap<String, V
         // todo: check that this is without replacement
         let mutated_elements: Vec<usize> = position_range.unwrap().sample_iter(&mut rng).take(num_positions).collect();
         // Debug check
-        println!("at positions: {:?}", mutated_elements);
         for index in mutated_elements {
             mutated_record[index] = mutate_nucleotide(sequence[index], &mut rng);
         }

@@ -1,24 +1,36 @@
-use crate::utils::fasta_reader::{num_to_char, read_fasta, sequence_array_to_string};
+use rand::thread_rng;
+use crate::utils::fasta_reader::read_fasta;
 use crate::utils::mutate::mutate_fasta;
+use crate::utils::make_reads::generate_reads;
+
+use crate::utils::fastq_writer::write_fastq;
 
 pub mod utils;
 
 fn main() {
-    let file = "data/H1N1.fa";
+    let file = "data/ecoli.fa";
     let my_file = read_fasta(file);
     let mutated_fasta = mutate_fasta(&my_file);
-    let first_key = my_file.keys().next().unwrap();
-    let seq1 = my_file.get(first_key).unwrap().clone();
-    let seq2 = mutated_fasta.get(first_key).unwrap().clone();
-    println!("Original record {}: {}", first_key, sequence_array_to_string(&seq1));
-    println!("Mutated record {}: {}", first_key, sequence_array_to_string(&seq2));
-    let mut combine = String::new();
-    for index in 0..seq1.len() {
-        if seq1[index] == seq2[index] {
-            combine += num_to_char(seq1[index].clone())
-        } else {
-            combine += &format!("[{}/{}]", num_to_char(seq1[index].clone()), num_to_char(seq2[index].clone()))
-        }
+
+    let read_length: usize = 150; // default for testing.
+    let coverage: usize = 10; // default for testing
+    let mut rng = thread_rng();
+    let strict_read_length: Option<bool> = Option::from(true);
+
+    for (_, sequence) in mutated_fasta {
+        // defined as a set of read sequences that should cover the mutated sequence `coverage` number of times
+        let data_set = generate_reads(
+            &sequence,
+            read_length,
+            coverage,
+            &mut rng,
+            strict_read_length,
+        );
+
+    write_fastq(
+        "C:\\Users\\jallen17\\code\\neat_projects\\test.fastq",
+        data_set,
+    ).unwrap();
+
     }
-    println!("Mutation seq: {}", combine)
 }
