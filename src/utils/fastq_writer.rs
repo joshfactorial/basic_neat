@@ -2,8 +2,7 @@ use std::collections::HashSet;
 use std::io::Write;
 use std::fs::File;
 use std::io;
-use crate::utils::fasta_reader::sequence_array_to_string;
-
+use crate::utils::fasta_reader::sequence_array_to_string;:qw:w:wquuuuuuu:qw
 pub fn write_fastq(
     fastq_filename: &str,
     dataset: HashSet<Vec<u8>>,
