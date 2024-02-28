@@ -28,7 +28,7 @@ fn main() {
         );
 
     write_fastq(
-        "C:\\Users\\jallen17\\code\\neat_projects\\test.fastq",
+        "/home/joshfactorial/code/rusty_neat_out/test.fastq",
         data_set,
     ).unwrap();
 
